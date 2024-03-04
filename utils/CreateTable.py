@@ -1,6 +1,5 @@
 from Connector import Connect
-from progressbar import progressbar
-
+from ProcessAnimate import Progress
 
 # Creating Table:
 class CreateTable(Connect):
@@ -13,6 +12,7 @@ class CreateTable(Connect):
         cursor = super().Csr()
         try:
             cursor.execute("BEGIN TRANSACTION")
+            
             if params:
                 cursor.execute(statement, params)
             else:
