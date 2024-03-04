@@ -1,6 +1,7 @@
 from Connector import Connect
 from progressbar import progressbar
 
+
 # Creating Table:
 class CreateTable(Connect):
     def __init__(self):
@@ -16,6 +17,7 @@ class CreateTable(Connect):
                 cursor.execute(statement, params)
             else:
                 cursor.execute(statement)
+                
             cursor.execute("COMMIT")
         except Exception as e:
             cursor.execute("ROLLBACK")
