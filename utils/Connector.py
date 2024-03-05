@@ -1,7 +1,8 @@
 import sqlite3 as sql
 import os
 from time import sleep
-from Design import Art
+from .Design import Art
+
 
 class Connect:
     """
