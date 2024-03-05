@@ -1,7 +1,8 @@
 from .CreateTable import CreateTable
-from .Design import Art 
+from .Design import Art
 from time import sleep
 import datetime
+
 
 class InitializeTables:
     def __init__(self):
@@ -12,7 +13,7 @@ class InitializeTables:
         date = datetime.datetime.now()
         month_name = date.strftime("%B")
         self.art.Loading("Creating Table...", 2)
-        try: 
+        try:
             sql_statements = [
                 f"""
                 CREATE TABLE IF NOT EXISTS info_{month_name} (

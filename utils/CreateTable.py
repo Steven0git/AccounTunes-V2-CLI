@@ -1,5 +1,5 @@
 from .Connector import Connect
- 
+
 
 # Creating Table:
 class CreateTable(Connect):
