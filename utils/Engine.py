@@ -4,6 +4,7 @@ import os
 import sys
 import re
 
+
 class Engine:
     """
     Engine Class with file-related methods.
@@ -34,8 +35,8 @@ class Engine:
         """
         while True:
             self.art.ColorPrint(prompt_msg, "green", "")
-            file_name = input() 
-            
+            file_name = input()
+
             if self.is_valid_filename(file_name, filetype):
                 return file_name
             else:
@@ -69,7 +70,7 @@ class Engine:
         else:
             self.art.ColorPrint("You're an asshole! add some words!\n", "red")
         sleep(0.8)
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
 
     @property
     def SuppressError(self):
