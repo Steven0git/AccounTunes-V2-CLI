@@ -1,11 +1,14 @@
 from .Connector import Connect
 from .Engine import Engine
+
 """
  This is Class CreateTable.
  Method: 
    exec(): to do some transaction initialization statement from __init__.py 
     
 """
+
+
 class CreateTable(Connect):
     def __init__(self):
         self.engine = Engine()
@@ -27,5 +30,3 @@ class CreateTable(Connect):
         except Exception as e:
             cursor.execute("ROLLBACK")
             print("An Error Occurred: ", e)
-
-  
