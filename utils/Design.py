@@ -52,7 +52,7 @@ class Art:
         print("_" * 50)
         print(self.RESET)
 
-    def ColorPrint(self, name: str, color: str, end=""):
+    def ColorPrint(self, name: str, color: str, ends="\n"):
         """
         Prints the given name in the specified color.
 
@@ -64,7 +64,7 @@ class Art:
         color_upper = color.upper()
         if hasattr(self, color_upper):
             color_code = getattr(self, color_upper)
-            print(f"{color_code}{name}{self.RESET}{end}")
+            print(f"{color_code}{name}{self.RESET}", end=ends)
         else:
             print(f"Color '{color}' not found.")
 
