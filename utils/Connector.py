@@ -25,10 +25,10 @@ class Connect:
         """
         self.db = db
         self.art = Art()
-        self.art.Header("AccountingApp V2")
         sleep(1)
-        self.art.Loading("Connecting Into Database...", 4)
         if os.path.exists(self.db):
+            self.art.Header("AccountingApp V2")
+            self.art.Loading("Connecting Into Database...", 4)
             self.conn = sql.connect(self.db)
             print()
             self.art.ColorPrint("Successfully Connected Into Database!", "green")

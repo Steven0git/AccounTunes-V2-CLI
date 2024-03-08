@@ -1,10 +1,15 @@
 from .Connector import Connect
-
-
-# Creating Table:
+from .Engine import Engine
+"""
+ This is Class CreateTable.
+ Method: 
+   exec(): to do some transaction initialization statement from __init__.py 
+    
+"""
 class CreateTable(Connect):
     def __init__(self):
-        DB_name = input("Enter Database Name: ")
+        self.engine = Engine()
+        DB_name = self.engine.fprompt("Your Database File Path: ", "db")
         super().__init__(DB_name)
 
     # Using transaction
@@ -22,3 +27,5 @@ class CreateTable(Connect):
         except Exception as e:
             cursor.execute("ROLLBACK")
             print("An Error Occurred: ", e)
+
+  
