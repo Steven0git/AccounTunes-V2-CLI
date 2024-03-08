@@ -1,37 +1,84 @@
 from .Design import Art
+from time import sleep
 import os
 import sys
 import re
 
 class Engine:
+    """
+    Engine Class with file-related methods.
+    """
+
     def __init__(self):
+        """
+        Initializes the Engine class.
+        """
         self.art = Art()
 
     def prompt(self):
+        """
+        Prompts the user.
+        """
         pass
 
-    def fprompt(self, prompt_msg: str, filetype: str):
+    def fprompt(self, prompt_msg: str, filetype: str) -> str:
+        """
+        Prompts the user for a filename with the specified filetype format.
+
+        Args:
+            prompt_msg (str): The prompt message.
+            filetype (str): The filetype format.
+
+        Returns:
+            str: The valid filename entered by the user.
+        """
         while True:
-            self.art.ColorPrint(prompt_msg, 'green', '') 
-            file_name = input()  # Get user input without coloring
-            if self.is_exist(file_name, filetype):
+            self.art.ColorPrint(prompt_msg, "green", "")
+            file_name = input() 
+            
+            if self.is_valid_filename(file_name, filetype):
                 return file_name
             else:
-                self.ErrorMessage(f"Error: Invalid filename format. It should be alphanumeric with a .{filetype} extension.")
+                self.error_message(
+                    f"Error: Invalid filename format. It should be alphanumeric with a .{filetype} extension."
+                )
 
-    def is_exist(self, filename, filetype):
-        pattern = fr'^[a-zA-Z0-9_]+\.{filetype}$'
-        return bool(re.match(pattern, filename))
+    def is_valid_filename(self, filename: str, filetype: str) -> bool:
+        """
+        Checks if the filename has the specified filetype format.
 
-    def ErrorMessage(self, msg):
-         self.art.ColorPrint(msg, 'red')
+        Args:
+            filename (str): The filename to check.
+            filetype (str): The filetype format.
 
-    @staticmethod
-    def suppress_errors():
+        Returns:
+            bool: True if the filename has the correct format, False otherwise.
+        """
+        pattern = re.compile(rf"^[a-zA-Z0-9_]+\.{filetype}$")
+        return bool(pattern.match(filename))
+
+    def error_message(self, msg: str):
+        """
+        Displays an error message.
+
+        Args:
+            msg (str): The error message to display.
+        """
+        if len(msg.strip()):
+            self.art.ColorPrint(f"{msg}\n", "red")
+        else:
+            self.art.ColorPrint("You're an asshole! add some words!\n", "red")
+        sleep(0.8)
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+    @property
+    def SuppressError(self):
+        """
+        Initializes the SuppressError class.
+        """
         try:
-            if os.name == "posix":
-                sys.stderr = open(os.devnull, "w")
-            elif os.name == "nt":
-                sys.stderr = open("NUL", "w")
-        except Exception:
+            null_device = "NUL" if os.name == "nt" else os.devnull
+            with open(null_device, "w") as f:
+                sys.stderr = f
+        except OSError:
             pass
