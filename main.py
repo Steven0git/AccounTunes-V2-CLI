@@ -1,6 +1,4 @@
-from utils import InitializeTables
+from utils import Connect
 
 if __name__ == "__main__":
-    init = InitializeTables()
-    init.create_tables()
-    # Your main code here
+   app = Connect()
