@@ -2,6 +2,7 @@ from utils.artisan.Engine import Engine
 from utils.artisan.Design import Art
 from time import sleep
 import datetime
+
 """
  This is Class CreateTable.
  Method: 
@@ -11,10 +12,10 @@ import datetime
 
 
 class CreateTable:
-    def __init__(self,cursor):
+    def __init__(self, cursor):
         self.art = Art()
         self.cursor = cursor
-   
+
     def exec(self, statement, params=None):
         try:
             self.cursor.execute("BEGIN TRANSACTION")
@@ -28,7 +29,7 @@ class CreateTable:
         except Exception as e:
             self.cursor.execute("ROLLBACK")
             print("An Error Occurred: ", e)
-    
+
     def TableCreate(self):
         date = datetime.datetime.now()
         month_name = date.strftime("%B")

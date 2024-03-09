@@ -75,6 +75,7 @@ class Engine:
     def SuppressError(self):
         import os
         import sys
+
         """
         Initializes the SuppressError class.
         """

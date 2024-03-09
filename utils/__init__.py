@@ -5,6 +5,7 @@ import sqlite3 as sql
 import os
 import time
 
+
 class Connect:
     """
     This class handles the connection to the database.
@@ -20,13 +21,13 @@ class Connect:
     def __init__(self, db=None):
         self.engine = Engine()
         self.art = Art()
-        self.conn = None   
+        self.conn = None
         self.db = db if db else self._prompt_database_path()
         self.checker()
         time.sleep(1)
         self.makeTable()
-        
-    def checker(self):   
+
+    def checker(self):
         time.sleep(1)
         if os.path.exists(self.db):
             self.art.Header("AccountingApp V2")
@@ -37,8 +38,8 @@ class Connect:
             print()
             time.sleep(1)
             self.art.Loading("Cursoring data....", 3)
-            self.art.ColorPrint("Done!\n", 'green')
-           
+            self.art.ColorPrint("Done!\n", "green")
+
         else:
             raise FileNotFoundError(self.art.ColorPrint("File Not Found!", "red"))
 
@@ -47,4 +48,4 @@ class Connect:
         make.TableCreate()
 
     def _prompt_database_path(self):
-         return self.engine.fprompt("Enter Database Name: ", "db")
+        return self.engine.fprompt("Enter Database Name: ", "db")
