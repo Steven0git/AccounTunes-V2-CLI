@@ -1,9 +1,7 @@
 from .Design import Art
 from time import sleep
-import os
-import sys
 import re
-
+import os
 
 class Engine:
     """
@@ -74,6 +72,8 @@ class Engine:
 
     @property
     def SuppressError(self):
+        import os
+        import sys
         """
         Initializes the SuppressError class.
         """

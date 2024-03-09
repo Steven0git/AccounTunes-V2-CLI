@@ -18,7 +18,7 @@ class CreateTable(Connect):
         DB_name = self.engine.fprompt("Your Database File Path: ", "db")
         super().__init__(DB_name)
 
-    # Using transaction
+   
     def exec(self, statement, params=None):
         cursor = super().Csr()
         try:
