@@ -1,86 +1,50 @@
-from .CreateTable import CreateTable
-from .Design import Art
-from time import sleep
-import datetime
+from .artisan.Design import Art
+from .artisan.Engine import Engine
+from .core.CreateTable import CreateTable
+import sqlite3 as sql
+import os
+import time
 
+class Connect:
+    """
+    This class handles the connection to the database.
 
-class InitializeTables:
-    def __init__(self):
-        self.Create = CreateTable()
+    Methods:
+        __init__(db: str)
+            Initializes the Connect object and establishes a connection to the database.
+
+        cursor()
+            Returns a cursor object for executing SQL commands on the connected database.
+    """
+
+    def __init__(self, db=None):
+        self.engine = Engine()
         self.art = Art()
+        self.conn = None   
+        self.db = db if db else self._prompt_database_path()
+        self.checker()
+        time.sleep(1)
+        self.makeTable()
+        
+    def checker(self):   
+        time.sleep(1)
+        if os.path.exists(self.db):
+            self.art.Header("AccountingApp V2")
+            self.art.Loading("Connecting Into Database...", 2)
+            self.conn = sql.connect(self.db)
+            print()
+            self.art.ColorPrint("Successfully Connected Into Database!", "green")
+            print()
+            time.sleep(1)
+            self.art.Loading("Cursoring data....", 3)
+            self.art.ColorPrint("Done!\n", 'green')
+           
+        else:
+            raise FileNotFoundError(self.art.ColorPrint("File Not Found!", "red"))
 
-    def create_tables(self):
-        date = datetime.datetime.now()
-        month_name = date.strftime("%B")
-        self.art.Loading("Creating Table...", 2)
-        try:
-            sql_statements = [
-                f"""
-                CREATE TABLE IF NOT EXISTS info_{month_name} (
-                    id INTEGER PRIMARY KEY,  
-                    name TEXT,  
-                    transaction_type TEXT CHECK(transaction_type IN ('income', 'expenditure', 'planned_exp', 'record')),  
-                    description TEXT,  
-                    trans_id INTEGER,  
-                    FOREIGN KEY(trans_id) REFERENCES "transaction"(id)  
-                )
-                """,
-                f"""
-                CREATE TABLE IF NOT EXISTS "transaction_{month_name}" (
-                    id INTEGER PRIMARY KEY,  
-                    transaction_type TEXT CHECK(transaction_type IN ('income', 'expenditure')),
-                    amount REAL,  
-                    date DATE  
-                )
-                """,
-                f"""
-                CREATE TABLE IF NOT EXISTS transaction_plan_{month_name} (
-                    id INTEGER PRIMARY KEY,  
-                    amount REAL NOT NULL,  
-                    date_start DATE NOT NULL,  
-                    date_end DATE NOT NULL,  
-                    trans_id INTEGER NOT NULL,  
-                    FOREIGN KEY(trans_id) REFERENCES info_{month_name}(id)  
-                )
-                """,
-                f"""
-                CREATE TABLE IF NOT EXISTS eval_transaction_{month_name} (
-                    id INTEGER PRIMARY KEY,  
-                    total REAL NOT NULL,  
-                    saved REAL NOT NULL,  
-                    date DATE NOT NULL,  
-                    info_id INTEGER,  
-                    FOREIGN KEY(info_id) REFERENCES info_{month_name}(id)  
-                )
-                """,
-                f"""
-                CREATE TABLE IF NOT EXISTS log_trans_{month_name} (
-                    id INTEGER PRIMARY KEY,  
-                    date DATE,  
-                    transaction_type TEXT CHECK(transaction_type IN ('income', 'expenditure')),  
-                    trans_id INTEGER,  
-                    FOREIGN KEY(trans_id) REFERENCES "transaction_{month_name}"(id)  
-                )
-                """,
-                f"""
-                CREATE TRIGGER IF NOT EXISTS log_transaction_trigger_{month_name} AFTER INSERT ON "transaction_{month_name}"
-                BEGIN
-                    INSERT INTO log_trans_{month_name} (date, transaction_type, trans_id)  
-                    VALUES (NEW.date, NEW.transaction_type, NEW.id);
-                END;
-                """,
-            ]
+    def makeTable(self):
+        make = CreateTable(self.conn.cursor())
+        make.TableCreate()
 
-            for statement in sql_statements:
-                self.Create.exec(statement)
-            sleep(1)
-            self.art.ColorPrint(".....", "cyan")
-            sleep(2)
-            self.art.ColorPrint("Table successfully created!", "green")
-            self.art.ColorPrint(".....", "cyan")
-            sleep(1)
-            print("\n")
-        except Exception as e:
-            raise self.art.ColorPrint(f"Error: {e}", "red")
-        finally:
-            self.art.ColorPrint("Creation Complete!", "YELLOW")
+    def _prompt_database_path(self):
+         return self.engine.fprompt("Enter Database Name: ", "db")
