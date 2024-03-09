@@ -13,25 +13,22 @@ import datetime
 
 class CreateTable(Connect):
     def __init__(self):
-        self.engine = Engine()
+        super().__init__()
         self.art = Art()
-        DB_name = self.engine.fprompt("Your Database File Path: ", "db")
-        super().__init__(DB_name)
-
+        self.cursor = super().cursor()
    
     def exec(self, statement, params=None):
-        cursor = super().Csr()
         try:
-            cursor.execute("BEGIN TRANSACTION")
+            self.cursor.execute("BEGIN TRANSACTION")
 
             if params:
-                cursor.execute(statement, params)
+                self.cursor.execute(statement, params)
             else:
-                cursor.execute(statement)
+                self.cursor.execute(statement)
 
-            cursor.execute("COMMIT")
+            self.cursor.execute("COMMIT")
         except Exception as e:
-            cursor.execute("ROLLBACK")
+            self.cursor.execute("ROLLBACK")
             print("An Error Occurred: ", e)
     
     def TableCreate(self):
