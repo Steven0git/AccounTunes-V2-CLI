@@ -1,25 +1,50 @@
-from .CreateTable import CreateTable
-from .Design import Art
+from .artisan.Design import Art
+from .artisan.Engine import Engine
+from .core.CreateTable import CreateTable
+import sqlite3 as sql
+import os
+import time
 
+class Connect:
+    """
+    This class handles the connection to the database.
 
-class InitializeTables():
-    def __init__(self):
-        self.Create = CreateTable()
+    Methods:
+        __init__(db: str)
+            Initializes the Connect object and establishes a connection to the database.
+
+        cursor()
+            Returns a cursor object for executing SQL commands on the connected database.
+    """
+
+    def __init__(self, db=None):
+        self.engine = Engine()
         self.art = Art()
-
-    def create_tables(self):
-        self.Create.TableCreate()
+        self.conn = None   
+        self.db = db if db else self._prompt_database_path()
+        self.checker()
+        time.sleep(1)
+        self.makeTable()
         
-    @property
-    def SuppressError(self):
-        import os
-        import sys
-        """
-        Initializes the SuppressError class.
-        """
-        try:
-            null_device = "NUL" if os.name == "nt" else os.devnull
-            with open(null_device, "w") as f:
-                sys.stderr = f
-        except OSError:
-            pass
+    def checker(self):   
+        time.sleep(1)
+        if os.path.exists(self.db):
+            self.art.Header("AccountingApp V2")
+            self.art.Loading("Connecting Into Database...", 2)
+            self.conn = sql.connect(self.db)
+            print()
+            self.art.ColorPrint("Successfully Connected Into Database!", "green")
+            print()
+            time.sleep(1)
+            self.art.Loading("Cursoring data....", 3)
+            self.art.ColorPrint("Done!\n", 'green')
+           
+        else:
+            raise FileNotFoundError(self.art.ColorPrint("File Not Found!", "red"))
+
+    def makeTable(self):
+        make = CreateTable(self.conn.cursor())
+        make.TableCreate()
+
+    def _prompt_database_path(self):
+         return self.engine.fprompt("Enter Database Name: ", "db")
