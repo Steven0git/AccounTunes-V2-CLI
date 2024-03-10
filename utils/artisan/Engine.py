@@ -152,5 +152,3 @@ class Engine:
                 sys.stderr = f
         except OSError:
             pass
-
- 
