@@ -34,18 +34,18 @@ class Connect:
             self.art.Loading("Connecting Into Database...", 2)
             self.conn = sql.connect(self.db)
             print()
-            self.art.ColorPrint("Successfully Connected Into Database!", "green")
+            self.art.print_color("Successfully Connected Into Database!", "green")
             print()
             time.sleep(1)
             self.art.Loading("Cursoring data....", 3)
-            self.art.ColorPrint("Done!\n", "green")
+            self.art.print_color("Done!\n", "green")
 
         else:
-            raise FileNotFoundError(self.art.ColorPrint("File Not Found!", "red"))
+            raise FileNotFoundError(self.art.print_color("File Not Found!", "red"))
 
     def makeTable(self):
         make = CreateTable(self.conn.cursor())
-        make.TableCreate()
+        make.create_table()
 
     def _prompt_database_path(self):
         return self.engine.fprompt("Enter Database Name: ", "db")

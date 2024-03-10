@@ -30,7 +30,7 @@ class CreateTable:
             self.cursor.execute("ROLLBACK")
             print("An Error Occurred: ", e)
 
-    def TableCreate(self):
+    def create_table(self):
         date = datetime.datetime.now()
         month_name = date.strftime("%B")
         self.art.Loading("Creating Table...", 2)
@@ -95,13 +95,13 @@ class CreateTable:
             for statement in sql_statements:
                 self.exec(statement)
             sleep(1)
-            self.art.ColorPrint(".....", "cyan")
+            self.art.print_color(".....", "cyan")
             sleep(2)
-            self.art.ColorPrint("Table successfully created!", "green")
-            self.art.ColorPrint(".....", "cyan")
+            self.art.print_color("Table successfully created!", "green")
+            self.art.print_color(".....", "cyan")
             sleep(1)
             print("\n")
         except Exception as e:
-            raise self.art.ColorPrint(f"Error: {e}", "red")
+            raise self.art.print_color(f"Error: {e}", "red")
         finally:
-            self.art.ColorPrint("Creation Complete!", "YELLOW")
+            self.art.print_color("Creation Complete!", "YELLOW")

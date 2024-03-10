@@ -15,7 +15,7 @@ class Engine:
         """
         self.art = Art()
 
-    def prompt(self):
+    def prompt(self, args) -> str:
         """
         Prompts the user.
         """
@@ -33,7 +33,7 @@ class Engine:
             str: The valid filename entered by the user.
         """
         while True:
-            self.art.ColorPrint(prompt_msg, "green", "")
+            self.art.print_color(prompt_msg, "green", "")
             file_name = input()
 
             if self.is_valid_filename(file_name, filetype):
@@ -65,9 +65,9 @@ class Engine:
             msg (str): The error message to display.
         """
         if len(msg.strip()):
-            self.art.ColorPrint(f"{msg}\n", "red")
+            self.art.print_color(f"{msg}\n", "red")
         else:
-            self.art.ColorPrint("You're an asshole! add some words!\n", "red")
+            self.art.print_color("You're an asshole! add some words!\n", "red")
         sleep(0.8)
         os.system("cls" if os.name == "nt" else "clear")
 

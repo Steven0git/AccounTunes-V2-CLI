@@ -1,6 +1,6 @@
 from time import sleep
 import progressbar
-
+import os
 
 class Art:
     """
@@ -20,7 +20,7 @@ class Art:
         Header(title: str)
             Prints a styled header with the provided title.
 
-        ColorPrint(name: str, color: str, end: str = "")
+        print_color(name: str, color: str, end: str = "")
             Prints the given name in the specified color.
 
         Loading(name: str, duration: int)
@@ -52,7 +52,7 @@ class Art:
         print("_" * 50)
         print(self.RESET)
 
-    def ColorPrint(self, name: str, color: str, ends="\n"):
+    def print_color(self, name: str, color: str, ends="\n"):
         """
         Prints the given name in the specified color.
 
@@ -68,7 +68,7 @@ class Art:
         else:
             print(f"Color '{color}' not found.")
 
-    def Loading(self, name: str, duration: int):
+    def Loading(self, name: str, duration: int, color: str = "YELLOW"):
         """
         Displays a loading animation for the specified duration.
 
@@ -76,7 +76,7 @@ class Art:
             name (str): Name of the progress.
             duration (int): Duration of the loading animation in seconds.
         """
-        widgets = [f"{self.YELLOW}{name}{self.RESET}", progressbar.AnimatedMarker()]
+        widgets = [f"{getattr(self, color.upper())}{name}{self.RESET}", progressbar.AnimatedMarker()]
         bar = progressbar.ProgressBar(widgets=widgets).start()
 
         for i in range(1, duration + 1):
@@ -84,3 +84,26 @@ class Art:
             bar.update(i)
 
         bar.finish()
+    
+    def menu_list(self, data, clean: bool = False):
+      
+      """
+    Args:
+        data(dict): title menu, and list bunch of data
+      """
+      sleep(1)
+      if clean:
+        self.Loading("Cleaning the screen....",2)
+        os.system("cls" if os.name == "nt" else "clear")
+        
+      self.print_color("-"*40, "MAGENTA")
+      self.print_color(f'\t{data["title"].upper()}', "green")
+      self.print_color("-"*40, "MAGENTA")
+      self.Loading("listing...", 2, "MAGENTA")
+      self.print_color("\nlist of menu:","green")
+      for index, item in enumerate(data["list"], start=1):
+        self.print_color(f"\t{index}: ", "green"," ")
+        self.print_color(item,"yellow")
+        sleep(0.3)
+        
+ 
