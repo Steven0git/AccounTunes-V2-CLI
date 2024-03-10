@@ -1,6 +1,8 @@
 from time import sleep
-import progressbar
+from sys import exit
 import os
+import progressbar
+
 
 class Art:
     """
@@ -26,6 +28,8 @@ class Art:
         Loading(name: str, duration: int)
             Displays a loading animation for the specified duration.
 
+        menu_list(data, clean: bool = False)
+            Prints a menu list with optional screen cleaning.
     """
 
     def __init__(self):
@@ -75,8 +79,19 @@ class Art:
         Args:
             name (str): Name of the progress.
             duration (int): Duration of the loading animation in seconds.
+            color (str, optional): The color of the loading bar. Defaults to "YELLOW".
         """
-        widgets = [f"{getattr(self, color.upper())}{name}{self.RESET}", progressbar.AnimatedMarker()]
+        color_upper = color.upper()
+        if not hasattr(self, color_upper):
+            self.print_color("\n\tYou're Jerks!", "RED")
+            sleep(0.4)
+            self.print_color("\tError: Color name not found.", "RED")
+            exit(1)
+
+        widgets = [
+            f"{getattr(self, color_upper)}{name}{self.RESET}",
+            progressbar.AnimatedMarker(),
+        ]
         bar = progressbar.ProgressBar(widgets=widgets).start()
 
         for i in range(1, duration + 1):
@@ -84,26 +99,26 @@ class Art:
             bar.update(i)
 
         bar.finish()
-    
+
     def menu_list(self, data, clean: bool = False):
-      
-      """
-    Args:
-        data(dict): title menu, and list bunch of data
-      """
-      sleep(1)
-      if clean:
-        self.Loading("Cleaning the screen....",2)
-        os.system("cls" if os.name == "nt" else "clear")
-        
-      self.print_color("-"*40, "MAGENTA")
-      self.print_color(f'\t{data["title"].upper()}', "green")
-      self.print_color("-"*40, "MAGENTA")
-      self.Loading("listing...", 2, "MAGENTA")
-      self.print_color("\nlist of menu:","green")
-      for index, item in enumerate(data["list"], start=1):
-        self.print_color(f"\t{index}: ", "green"," ")
-        self.print_color(item,"yellow")
-        sleep(0.3)
-        
- 
+        """
+        Prints a menu list with optional screen cleaning.
+
+        Args:
+            data (dict): Dictionary containing title menu and list of data.
+            clean (bool, optional): Whether to clean the screen before printing. Defaults to False.
+        """
+        sleep(1)
+        if clean:
+            self.Loading("Cleaning the screen....", 2)
+            os.system("cls" if os.name == "nt" else "clear")
+
+        self.print_color("-" * 40, "MAGENTA")
+        self.print_color(f'\t{data["title"].upper()}', "GREEN")
+        self.print_color("-" * 40, "MAGENTA")
+        self.Loading("listing...", 2, "MAGENTA")
+        self.print_color("\nList of menu:", "GREEN")
+        for index, item in enumerate(data["list"], start=1):
+            self.print_color(f"\t{index}: ", "GREEN", " ")
+            self.print_color(item, "YELLOW")
+            sleep(0.3)
