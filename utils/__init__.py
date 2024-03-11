@@ -31,7 +31,7 @@ class Connect:
     def checker(self):
         time.sleep(1)
         if os.path.exists(self.db):
-            self.art.print_color("So, you've entered the database name as","cyan"," ")
+            self.art.print_color("So, you've entered the database name as", "cyan", " ")
             self.art.print_color(f'"{self.db}"', "yellow", " ")
             self.art.print_color("? Well, Enjoy the ride!", "cyan")
             time.sleep(1.5)
@@ -39,14 +39,24 @@ class Connect:
             self.art.spin_load("Connecting to the database... Drumroll, please... ", 2)
             self.conn = sql.connect(self.db)
             print()
-            self.art.print_color("Success! You're now officially in the Matrix of financial wizardry! ", "green")
+            self.art.print_color(
+                "Success! You're now officially in the Matrix of financial wizardry! ",
+                "green",
+            )
             print()
             time.sleep(1)
-            self.art.spin_load("Gathering your data... insert dramatic suspense music...", 3)
+            self.art.spin_load(
+                "Gathering your data... insert dramatic suspense music...", 3
+            )
             time.sleep(0.5)
-            self.art.print_color("Voila! Data collection complete! We've scooped up those numbers faster than a kid in a candy store!\n", "green")
+            self.art.print_color(
+                "Voila! Data collection complete! We've scooped up those numbers faster than a kid in a candy store!\n",
+                "green",
+            )
         else:
-            raise FileNotFoundError(self.art.print_color("Oops! File Not Found!", "red"))
+            raise FileNotFoundError(
+                self.art.print_color("Oops! File Not Found!", "red")
+            )
 
     def makeTable(self):
         make = CreateTable(self.conn.cursor())

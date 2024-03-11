@@ -33,7 +33,9 @@ class CreateTable:
     def create_table(self):
         date = datetime.datetime.now()
         month_name = date.strftime("%B")
-        self.art.print_color("Now, let's get down to business - creating a table!", "cyan")
+        self.art.print_color(
+            "Now, let's get down to business - creating a table!", "cyan"
+        )
         sleep(1)
         self.art.spin_load("Creating some shit...", 2)
         try:
@@ -97,13 +99,19 @@ class CreateTable:
             for statement in sql_statements:
                 self.exec(statement)
             sleep(1)
-            self.art.print_color("..."*17, "cyan")
+            self.art.print_color("..." * 17, "cyan")
             sleep(1)
-            self.art.print_color("Table successfully created! And just like that, After long long query statement.", "green")
-            self.art.print_color("..."*17, "cyan")
+            self.art.print_color(
+                "Table successfully created! And just like that, After long long query statement.",
+                "green",
+            )
+            self.art.print_color("..." * 17, "cyan")
             sleep(2)
             print("\n")
         except Exception as e:
             raise self.art.print_color(f"Error: {e}", "red")
         finally:
-            self.art.print_color("Creation complete! It's like hitting the 'start' button on a well-oiled machine - now, let the accounting adventures begin!", "YELLOW")
+            self.art.print_color(
+                "Creation complete! It's like hitting the 'start' button on a well-oiled machine - now, let the accounting adventures begin!",
+                "YELLOW",
+            )

@@ -41,7 +41,7 @@ class Art:
         self.CYAN = "\033[96m"
         self.RESET = "\033[0m"
 
-    def print_header(self, title: str, type='main'):
+    def print_header(self, title: str, type="main"):
         """
         Prints a styled header with the provided title.
 
@@ -49,19 +49,17 @@ class Art:
             title (str): The title name for the header.
             type (str): only have main and sub
         """
-        if type.lower() == 'main':
-          
-          self.print_color("_" * 50,"blue")
-          print()
-          self.print_color(f"\t{title.upper()}", "CYAN")
-          self.print_color("_"*50, "blue")
-          print(self.RESET)
-          
-        elif type.lower() == 'sub':
-          self.print_color("-"*40,"MAGENTA")
-          self.print_color(f"\t{title}","GREEN")
-          self.print_color("-"*40,"MAGENTA")
-   
+        if type.lower() == "main":
+            self.print_color("_" * 50, "blue")
+            print()
+            self.print_color(f"\t{title.upper()}", "CYAN")
+            self.print_color("_" * 50, "blue")
+            print(self.RESET)
+
+        elif type.lower() == "sub":
+            self.print_color("-" * 40, "MAGENTA")
+            self.print_color(f"\t{title}", "GREEN")
+            self.print_color("-" * 40, "MAGENTA")
 
     def print_color(self, name: str, color: str, ends="\n"):
         """
@@ -106,7 +104,7 @@ class Art:
 
         bar.finish()
 
-    def menu_list(self, data:dict, clean: bool = False):
+    def menu_list(self, data: dict, clean: bool = False):
         """
         Prints a menu list with optional screen cleaning.
 
@@ -114,19 +112,18 @@ class Art:
             data (dict): Dictionary containing title menu and list of data.
             clean (bool, optional): Whether to clean the screen before printing. Defaults to False.
         """
-        
+
         sleep(0.5)
-        #check args clean
+        # check args clean
         if clean:
             self.spin_load("Your screen is dirty, some cleaning....", 2)
             os.system("cls" if os.name == "nt" else "clear")
 
-         
         self.print_header(f'\t{data["title"].upper()}', "sub")
         self.spin_load("listing...", 1, "MAGENTA")
-        
+
         self.print_color("\nList of menu:", "GREEN")
-        
+
         for index, item in enumerate(data["list"], start=1):
             self.print_color(f"\t{index}: ", "GREEN", " ")
             self.print_color(item, "YELLOW")
