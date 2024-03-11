@@ -8,14 +8,15 @@ import time
 
 class Connect:
     """
-    This class handles the connection to the database.
+    The Connect class is your gateway to the database world. It's like a magic portal to store and retrieve data!
 
     Methods:
         __init__(db: str)
-            Initializes the Connect object and establishes a connection to the database.
+            Prepare yourself for the adventure as you initialize the Connect object and journey into the database realm.
 
         cursor()
-            Returns a cursor object for executing SQL commands on the connected database.
+            Get your magical cursor wand ready! This method returns a cursor object, empowering you to cast SQL spells
+            on the connected database.
     """
 
     def __init__(self, db=None):
@@ -30,18 +31,22 @@ class Connect:
     def checker(self):
         time.sleep(1)
         if os.path.exists(self.db):
-            self.art.Header("AccountingApp V2")
-            self.art.Loading("Connecting Into Database...", 2)
+            self.art.print_color("So, you've entered the database name as","cyan"," ")
+            self.art.print_color(f'"{self.db}"', "yellow", " ")
+            self.art.print_color("? Well, Enjoy the ride!", "cyan")
+            time.sleep(1.5)
+            self.art.print_header("Welcome to the Accounting App V2!")
+            self.art.spin_load("Connecting to the database... Drumroll, please... ", 2)
             self.conn = sql.connect(self.db)
             print()
-            self.art.print_color("Successfully Connected Into Database!", "green")
+            self.art.print_color("Success! You're now officially in the Matrix of financial wizardry! ", "green")
             print()
             time.sleep(1)
-            self.art.Loading("Cursoring data....", 3)
-            self.art.print_color("Done!\n", "green")
-
+            self.art.spin_load("Gathering your data... insert dramatic suspense music...", 3)
+            time.sleep(0.5)
+            self.art.print_color("Voila! Data collection complete! We've scooped up those numbers faster than a kid in a candy store!\n", "green")
         else:
-            raise FileNotFoundError(self.art.print_color("File Not Found!", "red"))
+            raise FileNotFoundError(self.art.print_color("Oops! File Not Found!", "red"))
 
     def makeTable(self):
         make = CreateTable(self.conn.cursor())

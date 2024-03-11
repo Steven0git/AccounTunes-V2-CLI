@@ -19,13 +19,13 @@ class Art:
         RESET (str): ANSI escape code to reset text color to default.
 
     Methods:
-        Header(title: str)
+        print_header(title: str)
             Prints a styled header with the provided title.
 
         print_color(name: str, color: str, end: str = "")
             Prints the given name in the specified color.
 
-        Loading(name: str, duration: int)
+        spin_loadname: str, duration: int)
             Displays a loading animation for the specified duration.
 
         menu_list(data, clean: bool = False)
@@ -33,7 +33,6 @@ class Art:
     """
 
     def __init__(self):
-        # ANSI escape codes for colors
         self.GREEN = "\033[92m"
         self.YELLOW = "\033[93m"
         self.RED = "\033[91m"
@@ -41,21 +40,28 @@ class Art:
         self.MAGENTA = "\033[95m"
         self.CYAN = "\033[96m"
         self.RESET = "\033[0m"
-        self.lazy_load = True
 
-    def Header(self, title: str):
+    def print_header(self, title: str, type='main'):
         """
         Prints a styled header with the provided title.
 
         Args:
             title (str): The title name for the header.
+            type (str): only have main and sub
         """
-        print(self.CYAN)
-        print("_" * 50)
-        print(self.RESET)
-        print(f"\t{self.YELLOW}{title}{self.RESET}{self.CYAN}")
-        print("_" * 50)
-        print(self.RESET)
+        if type.lower() == 'main':
+          
+          self.print_color("_" * 50,"blue")
+          print()
+          self.print_color(f"\t{title.upper()}", "CYAN")
+          self.print_color("_"*50, "blue")
+          print(self.RESET)
+          
+        elif type.lower() == 'sub':
+          self.print_color("-"*40,"MAGENTA")
+          self.print_color(f"\t{title}","GREEN")
+          self.print_color("-"*40,"MAGENTA")
+   
 
     def print_color(self, name: str, color: str, ends="\n"):
         """
@@ -73,7 +79,7 @@ class Art:
         else:
             print(f"Color '{color}' not found.")
 
-    def Loading(self, name: str, duration: int, color: str = "YELLOW"):
+    def spin_load(self, name: str, duration: int, color: str = "YELLOW"):
         """
         Displays a loading animation for the specified duration.
 
@@ -94,15 +100,13 @@ class Art:
             progressbar.AnimatedMarker(),
         ]
         bar = progressbar.ProgressBar(widgets=widgets).start()
-        for i in range(duration*10):
-          sleep(0.1)
-          bar.update(i)
+        for i in range(duration * 10):
+            sleep(0.1)
+            bar.update(i)
 
         bar.finish()
-        
- 
-             
-    def menu_list(self, data, clean: bool = False):
+
+    def menu_list(self, data:dict, clean: bool = False):
         """
         Prints a menu list with optional screen cleaning.
 
@@ -110,22 +114,19 @@ class Art:
             data (dict): Dictionary containing title menu and list of data.
             clean (bool, optional): Whether to clean the screen before printing. Defaults to False.
         """
-        lazy = self.lazy_load
-        if lazy:
-         sleep(1)
-         self.lazy_load = False
-        else:
-          sleep(0.2)
-          
+        
+        sleep(0.5)
+        #check args clean
         if clean:
-            self.Loading("Cleaning the screen....", 2)
+            self.spin_load("Your screen is dirty, some cleaning....", 2)
             os.system("cls" if os.name == "nt" else "clear")
 
-        self.print_color("-" * 40, "MAGENTA")
-        self.print_color(f'\t{data["title"].upper()}', "GREEN")
-        self.print_color("-" * 40, "MAGENTA")
-        self.Loading("listing...", 1, "MAGENTA")
+         
+        self.print_header(f'\t{data["title"].upper()}', "sub")
+        self.spin_load("listing...", 1, "MAGENTA")
+        
         self.print_color("\nList of menu:", "GREEN")
+        
         for index, item in enumerate(data["list"], start=1):
             self.print_color(f"\t{index}: ", "GREEN", " ")
             self.print_color(item, "YELLOW")

@@ -33,7 +33,7 @@ class Engine(Show):
         """
         args = message
         if not message.strip().endswith(":"):
-          args = f"{message}: "
+            args = f"{message}: "
         while True:
             self.art.print_color(f"\n{args}", "yellow", "")
             data_input = input()
@@ -58,7 +58,7 @@ class Engine(Show):
             self.count += 1
         else:
             self.art.menu_list(menu, False)
-         
+
         menu_available = menu["list"]
         while True:
             self.art.print_color("Select Menu:", "yellow", " ")
@@ -102,42 +102,42 @@ class Engine(Show):
                 )
 
     def request_prompt(self, my_list: list) -> bool:
-      """
-    Processes user prompt requests.
+        """
+        Processes user prompt requests.
 
-    Args:
-        my_list (list): List containing prompt data.
+        Args:
+            my_list (list): List containing prompt data.
 
-    Returns:
-        bool: True if prompt was successfully processed, False otherwise.
-      """
-      for data in my_list:
-        if not isinstance(data, dict):
-            self.error_message("Each item in my_list must be a dictionary!", False)
-            return False
-
-        if not all(key in data for key in ["type", "keys"]):
-            self.error_message("Title, Type, and keys are required fields!", False)
-            return False
-
-        name_type = data.get("type", "").lower()
-        if name_type == "menu":
-            if "list" not in data:
-                self.error_message("Menu list is required!", False)
+        Returns:
+            bool: True if prompt was successfully processed, False otherwise.
+        """
+        for data in my_list:
+            if not isinstance(data, dict):
+                self.error_message("Each item in my_list must be a dictionary!", False)
                 return False
-            menu = self.select_menu(data)
-            self._save((data["keys"], data["list"][menu]))
-        elif name_type == "data":
-            if "title" not in data:
-                self.error_message("Title is required for data type prompt!", False)
-                return False
-            user_input = self.prompt(data["title"])
-            self._save((data["keys"], user_input))
-        else:
-            self.error_message("Invalid prompt type!", False)
-            return False
 
-      return True
+            if not all(key in data for key in ["type", "keys"]):
+                self.error_message("Title, Type, and keys are required fields!", False)
+                return False
+
+            name_type = data.get("type", "").lower()
+            if name_type == "menu":
+                if "list" not in data:
+                    self.error_message("Menu list is required!", False)
+                    return False
+                menu = self.select_menu(data)
+                self._save((data["keys"], data["list"][menu]))
+            elif name_type == "data":
+                if "title" not in data:
+                    self.error_message("Title is required for data type prompt!", False)
+                    return False
+                user_input = self.prompt(data["title"])
+                self._save((data["keys"], user_input))
+            else:
+                self.error_message("Invalid prompt type!", False)
+                return False
+
+        return True
 
     @staticmethod
     def is_valid_filename(filename: str, filetype: str) -> bool:
@@ -240,5 +240,3 @@ class Engine(Show):
                 sys.stderr = f
         except OSError:
             pass
-         
-          
