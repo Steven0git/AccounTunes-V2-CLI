@@ -53,7 +53,7 @@ class Art:
         print(self.CYAN)
         print("_" * 50)
         print(self.RESET)
-        print(f"\t{self.BLUE}{title}{self.RESET}{self.CYAN}")
+        print(f"\t{self.YELLOW}{title}{self.RESET}{self.CYAN}")
         print("_" * 50)
         print(self.RESET)
 

@@ -1,4 +1,4 @@
-from Design import Art
+from .Design import Art
 from time import sleep
 
 class Show:
