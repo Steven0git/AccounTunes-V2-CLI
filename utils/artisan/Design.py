@@ -1,6 +1,6 @@
-from time import sleep
 from sys import exit
 import os
+from time import sleep
 import progressbar
 
 
@@ -41,6 +41,7 @@ class Art:
         self.MAGENTA = "\033[95m"
         self.CYAN = "\033[96m"
         self.RESET = "\033[0m"
+        self.lazy_load = True
 
     def Header(self, title: str):
         """
@@ -93,13 +94,14 @@ class Art:
             progressbar.AnimatedMarker(),
         ]
         bar = progressbar.ProgressBar(widgets=widgets).start()
-
-        for i in range(1, duration + 1):
-            sleep(1)
-            bar.update(i)
+        for i in range(duration*10):
+          sleep(0.1)
+          bar.update(i)
 
         bar.finish()
-
+        
+ 
+             
     def menu_list(self, data, clean: bool = False):
         """
         Prints a menu list with optional screen cleaning.
@@ -108,7 +110,13 @@ class Art:
             data (dict): Dictionary containing title menu and list of data.
             clean (bool, optional): Whether to clean the screen before printing. Defaults to False.
         """
-        sleep(1)
+        lazy = self.lazy_load
+        if lazy:
+         sleep(1)
+         self.lazy_load = False
+        else:
+          sleep(0.2)
+          
         if clean:
             self.Loading("Cleaning the screen....", 2)
             os.system("cls" if os.name == "nt" else "clear")
@@ -116,7 +124,7 @@ class Art:
         self.print_color("-" * 40, "MAGENTA")
         self.print_color(f'\t{data["title"].upper()}', "GREEN")
         self.print_color("-" * 40, "MAGENTA")
-        self.Loading("listing...", 2, "MAGENTA")
+        self.Loading("listing...", 1, "MAGENTA")
         self.print_color("\nList of menu:", "GREEN")
         for index, item in enumerate(data["list"], start=1):
             self.print_color(f"\t{index}: ", "GREEN", " ")
