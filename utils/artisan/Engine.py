@@ -1,5 +1,5 @@
-from Design import Art
-from Show import Show
+from .Design import Art
+from .Show import Show
 from itertools import groupby
 from time import sleep
 import sys
@@ -21,7 +21,7 @@ class Engine(Show):
         self._data_store = {}
         self.count = 0
 
-    def prompt(self, args: str) -> str:
+    def prompt(self, message: str) -> str:
         """
         Prompts the user for input.
 
@@ -31,6 +31,9 @@ class Engine(Show):
         Returns:
             str: User input.
         """
+        args = message
+        if not message.strip().endswith(":"):
+          args = f"{message}: "
         while True:
             self.art.print_color(f"\n{args}", "yellow", "")
             data_input = input()
@@ -51,10 +54,10 @@ class Engine(Show):
             int: Selected menu option.
         """
         if self.count == 0:
-         self.art.menu_list(menu, True)
-         self.count+=1
+            self.art.menu_list(menu, True)
+            self.count += 1
         else:
-         self.art.menu_list(menu,False)
+            self.art.menu_list(menu, False)
          
         menu_available = menu["list"]
         while True:
@@ -99,35 +102,42 @@ class Engine(Show):
                 )
 
     def request_prompt(self, my_list: list) -> bool:
-        """
-        Processes user prompt requests.
+      """
+    Processes user prompt requests.
 
-        Args:
-            data (dict): Dictionary containing prompt data.
+    Args:
+        my_list (list): List containing prompt data.
 
-        Returns:
-            bool: True if prompt was successfully processed, False otherwise.
-        """
-       for data in my_list:
-        if "type" not in data or "title" not in data:
-            self.error_message("Title and type are required fields!", False)
+    Returns:
+        bool: True if prompt was successfully processed, False otherwise.
+      """
+      for data in my_list:
+        if not isinstance(data, dict):
+            self.error_message("Each item in my_list must be a dictionary!", False)
             return False
 
-        name_type = data["type"].lower()
+        if not all(key in data for key in ["type", "keys"]):
+            self.error_message("Title, Type, and keys are required fields!", False)
+            return False
+
+        name_type = data.get("type", "").lower()
         if name_type == "menu":
             if "list" not in data:
                 self.error_message("Menu list is required!", False)
                 return False
             menu = self.select_menu(data)
-            self._save((data["title"], data["list"][menu]))
+            self._save((data["keys"], data["list"][menu]))
         elif name_type == "data":
+            if "title" not in data:
+                self.error_message("Title is required for data type prompt!", False)
+                return False
             user_input = self.prompt(data["title"])
-            self._save((data["title"], user_input))
+            self._save((data["keys"], user_input))
         else:
             self.error_message("Invalid prompt type!", False)
             return False
 
-        return True
+      return True
 
     @staticmethod
     def is_valid_filename(filename: str, filetype: str) -> bool:
@@ -185,6 +195,7 @@ class Engine(Show):
             return True
         else:
             return False
+
     def _save(self, data: tuple) -> bool:
         """
         Saves temporary data.
@@ -198,8 +209,9 @@ class Engine(Show):
         else:
             self.error_message("Error: Invalid data format.", False)
             return False
+
     def show(self):
-      super().readable(self._data_store)
+        super().readable(self._data_store)
 
     def error_message(self, msg: str, clean_screen: bool = True):
         """
@@ -228,23 +240,5 @@ class Engine(Show):
                 sys.stderr = f
         except OSError:
             pass
- 
-"""         
-test = Engine()
-data = {
-  "title": "Debug Tests - Fruit preference",
-  "list": ["apple", "coconut", "banana", "watermelon"],
-  "type": "menu"
-}
-datas = {
-  "title": "Debug Test - Fruit preference",
-  "list": ["apple", "coconut", "banana", "watermelon"],
-  "type": "menu"
-}
-
-test.request_prompt(datas)
-test.request_prompt(data)
-test.save()
-test.show()
-"""
- 
+         
+          
