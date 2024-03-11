@@ -26,6 +26,7 @@ class Connect:
         self.checker()
         time.sleep(1)
         self.makeTable()
+       
 
     def checker(self):
         time.sleep(1)
@@ -49,3 +50,4 @@ class Connect:
 
     def _prompt_database_path(self):
         return self.engine.fprompt("Enter Database Name: ", "db")
+    

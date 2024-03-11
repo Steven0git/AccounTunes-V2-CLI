@@ -1,6 +1,6 @@
 from .Design import Art
 from time import sleep
-import re
+from itertools import groupby
 import os
 import sys
 
@@ -15,6 +15,8 @@ class Engine:
         Initializes the Engine class.
         """
         self.art = Art()
+        self._temp_store = []
+        self._data_store = {}
 
     def prompt(self, args: str) -> str:
         """
@@ -81,7 +83,7 @@ class Engine:
                 return file_name
             else:
                 self.error_message(
-                    f"Error: Invalid filename format. It should be alphanumeric with a .{filetype} extension."
+                    f"Error: Invalid filename format. It should be alphanumeric with a {filetype} extension."
                 )
 
     def is_valid_filename(self, filename: str, filetype: str) -> bool:
@@ -95,9 +97,11 @@ class Engine:
         Returns:
             bool: True if the filename has the correct format, False otherwise.
         """
-        pattern = re.compile(rf"^[a-zA-Z0-9_]+\.{filetype}$")
-        return bool(pattern.match(filename))
-
+        if filetype.startswith("."):
+          return filename.endswith(filetype)
+        else:
+          return filename.endswith(f".{filetype}")
+ 
     def data_confirmation(self, data):
         """
         Confirms user's input.
@@ -124,7 +128,33 @@ class Engine:
                 "Invalid input. Please enter 'yes', 'no', or 'quit'.", False
             )
             self.data_confirmation(data)
-
+  
+    @staticmethod
+    def _save_all(self) -> bool:
+      """
+      if all prompt data done, this is function will save all those for execution.
+      """
+      if self._temp_store:
+        for key, group in groupby(self._temp_store, key=lambda x: x[0]):
+          self._data_store[key] = next(group)[1]
+        return True
+      else: 
+        return False
+     
+    @staticmethod
+    def _save(self, data: tuple) -> bool:
+      """ 
+       This is _save method is used for save temporary data.
+       Args:
+        data(tuple): its only accept 2 length.
+      """
+      if len(data) < 2 or len(data) > 2:
+        self.error_message("Error To save!", False)
+        return False
+      else:
+        self._temp_store.append(data)
+        return True
+        
     def error_message(self, msg: str, clean_screen: bool = True):
         """
         Displays an error message.
@@ -140,9 +170,9 @@ class Engine:
         if clean_screen:
             sleep(0.8)
             os.system("cls" if os.name == "nt" else "clear")
-
+    
     @property
-    def SuppressError(self):
+    def suppress_error(self):
         """
         Suppresses error messages.
         """
