@@ -1,11 +1,12 @@
 from Design import Art
+from Show import Show
 from itertools import groupby
 from time import sleep
 import sys
 import os
 
 
-class Engine:
+class Engine(Show):
     """
     A class responsible for user interaction and file-related operations.
     """
@@ -14,9 +15,11 @@ class Engine:
         """
         Initializes the Engine class.
         """
+        super().__init__()
         self.art = Art()
         self._temp_store = []
         self._data_store = {}
+        self.count = 0
 
     def prompt(self, args: str) -> str:
         """
@@ -47,8 +50,13 @@ class Engine:
         Returns:
             int: Selected menu option.
         """
-        self.art.menu_list(menu, True)
-        menu_available = menu['list']
+        if self.count == 0:
+         self.art.menu_list(menu, True)
+         self.count+=1
+        else:
+         self.art.menu_list(menu,False)
+         
+        menu_available = menu["list"]
         while True:
             self.art.print_color("Select Menu:", "yellow", " ")
             try:
@@ -90,7 +98,7 @@ class Engine:
                     f"Error: Invalid filename format. It should be alphanumeric with a {filetype} extension."
                 )
 
-    def request_prompt(self, data: dict) -> bool:
+    def request_prompt(self, my_list: list) -> bool:
         """
         Processes user prompt requests.
 
@@ -100,6 +108,7 @@ class Engine:
         Returns:
             bool: True if prompt was successfully processed, False otherwise.
         """
+       for data in my_list:
         if "type" not in data or "title" not in data:
             self.error_message("Title and type are required fields!", False)
             return False
@@ -147,8 +156,10 @@ class Engine:
         Returns:
             data if confirmed, False otherwise.
         """
+        sleep(0.4)
         self.art.print_color("\nAre you sure (yes/no/quit):", "yellow", " ")
         confirmation = input().lower()
+        sleep(0.4)
         if confirmation in ["yes", "y"]:
             self.art.print_color("\tConfirmed!", "green")
             return data
@@ -174,7 +185,6 @@ class Engine:
             return True
         else:
             return False
-      
     def _save(self, data: tuple) -> bool:
         """
         Saves temporary data.
@@ -188,6 +198,8 @@ class Engine:
         else:
             self.error_message("Error: Invalid data format.", False)
             return False
+    def show(self):
+      super().readable(self._data_store)
 
     def error_message(self, msg: str, clean_screen: bool = True):
         """
@@ -216,5 +228,23 @@ class Engine:
                 sys.stderr = f
         except OSError:
             pass
-          
+ 
+"""         
+test = Engine()
+data = {
+  "title": "Debug Tests - Fruit preference",
+  "list": ["apple", "coconut", "banana", "watermelon"],
+  "type": "menu"
+}
+datas = {
+  "title": "Debug Test - Fruit preference",
+  "list": ["apple", "coconut", "banana", "watermelon"],
+  "type": "menu"
+}
+
+test.request_prompt(datas)
+test.request_prompt(data)
+test.save()
+test.show()
+"""
  
