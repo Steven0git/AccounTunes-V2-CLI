@@ -13,10 +13,6 @@ class Connect:
     Methods:
         __init__(db: str)
             Prepare yourself for the adventure as you initialize the Connect object and journey into the database realm.
-
-        cursor()
-            Get your magical cursor wand ready! This method returns a cursor object, empowering you to cast SQL spells
-            on the connected database.
     """
 
     def __init__(self, db=None):
@@ -27,6 +23,7 @@ class Connect:
         self.checker()
         time.sleep(1)
         self.makeTable()
+        self.open_panel()
 
     def checker(self):
         time.sleep(1)
@@ -64,3 +61,16 @@ class Connect:
 
     def _prompt_database_path(self):
         return self.engine.fprompt("Enter Database Name: ", "db")
+    
+    def open_panel(self):
+      """
+     Panel Selection 
+      """
+      menu_offered = [{
+          "title": "What You Wanted Todo",
+          "list": ["SELECT DATA","INSERT DATA", "UPDATE DATA", "DELETE DATA"],
+          "type": "menu",
+          "keys": "_sql_method"
+        }]
+      self.engine.request_prompt(menu_offered)
+     
