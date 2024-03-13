@@ -1,5 +1,6 @@
 from .Design import Art
 from .Show import Show
+from .sql import SQL
 from itertools import groupby
 from time import sleep
 import sys
@@ -16,6 +17,7 @@ class Engine(Show):
         Initializes the Engine class.
         """
         super().__init__()
+        self.sql = SQL()
         self.art = Art()
         self._temp_store = []
         self._data_store = {}
@@ -112,14 +114,16 @@ class Engine(Show):
             bool: True if prompt was successfully processed, False otherwise.
         """
         for data in my_list:
+          #Error Handle
             if not isinstance(data, dict):
-                self.error_message("Each item in my_list must be a dictionary!", False)
+                self.error_message("Each item in my_list must be a dictionary and array [{}]!", False)
                 return False
 
             if not all(key in data for key in ["type", "keys"]):
                 self.error_message("Title, Type, and keys are required fields!", False)
                 return False
 
+            #menu handle
             name_type = data.get("type", "").lower()
             if name_type == "menu":
                 if "list" not in data:
@@ -127,7 +131,9 @@ class Engine(Show):
                     return False
                 menu = self.select_menu(data)
                 self._save((data["keys"], data["list"][menu]))
-            elif name_type == "data":
+            
+            #input handle    
+            elif name_type in ["input","data","prompt"]:
                 if "title" not in data:
                     self.error_message("Title is required for data type prompt!", False)
                     return False
@@ -136,7 +142,6 @@ class Engine(Show):
             else:
                 self.error_message("Invalid prompt type!", False)
                 return False
-
         return True
 
     @staticmethod
@@ -204,7 +209,12 @@ class Engine(Show):
             data(tuple): It only accepts tuples of length 2.
         """
         if len(data) == 2:
-            self._temp_store.append(data)
+            if data[0].startswith("_sql_"):
+              self.sql.sql_helper(data[1])
+            elif data[0].startswith("_table_"):
+              self.sql.sql_table(data[1])
+            else:
+              self._temp_store.append(data)
             return True
         else:
             self.error_message("Error: Invalid data format.", False)
