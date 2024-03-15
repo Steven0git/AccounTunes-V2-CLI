@@ -21,4 +21,7 @@ jobs:
          
     - name: Analysing the code with pylint
       run: |
+        # Ensure sqlite3 is installed before running pylint
+        sudo apt-get install -y libsqlite3-dev
+        pip install -q --no-cache-dir pysqlite3
         pylint $(git ls-files '*.py')
