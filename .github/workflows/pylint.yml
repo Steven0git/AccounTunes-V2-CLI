@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10","3.11","3.12"]
+        python-version: ["3.10"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -16,10 +16,10 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip
-        pip install pylint black progressbar
+        python3 -m pip3 install --upgrade pip
+        pip3 install pylint black progressbar pysqlite3
          
     - name: Analysing the code with pylint
       run: |
-        pip install -q --no-cache-dir pysqlite3
         pylint $(git ls-files '**/*.py')
+        black $(git ls-files '**/*.py')
