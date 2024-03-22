@@ -1,6 +1,7 @@
 from .artisan.Design import Art
 from .artisan.Engine import Engine
 from .core.CreateTable import CreateTable
+from .sql import SQLHandler
 import sqlite3 as sql
 import os
 import time
@@ -20,6 +21,7 @@ class Connect:
         self.art = Art()
         self.conn = None
         self.db = db if db else self._prompt_database_path()
+        self.sql_lib = SQLHandler()  # Define sql_lib attribute here
         self.checker()
         time.sleep(1)
         self.makeTable()
@@ -34,7 +36,10 @@ class Connect:
             time.sleep(1.5)
             self.art.print_header("Welcome to the Accounting App V2!")
             self.art.spin_load("Connecting to the database...", 2)
+            
+            #updating connection sql
             self.conn = sql.connect(self.db)
+            self.sql_lib.my_connect(self.db)
             print()
             self.art.print_color(
                 "Success! You're now officially in the Matrix of financial wizardry! ",
@@ -73,4 +78,6 @@ class Connect:
           "keys": "_sql_method"
         }]
       self.engine.request_prompt(menu_offered)
-     
+      self.engine.save()
+      self.engine.show("debug")
+      self.engine.show("dict")

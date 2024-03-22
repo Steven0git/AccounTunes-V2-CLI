@@ -1,4 +1,5 @@
 from .Design import Art
+from tabulate import tabulate
 from time import sleep
 
 
@@ -21,11 +22,9 @@ class Show:
         Args:
             data (dict): The dictionary containing keys and values to be displayed.
         """
-        self.print("_" * 40, "MAGENTA")
-        self.print("Your saved data: \n", "GREEN")
-        for index, (key, value) in enumerate(data.items()):
-            self.print(f"\t{index+1}: {key}", "yellow", "")
-            self.print(" --> ", "RED", "")
-            self.print(value, "green")
-            sleep(0.1)
-        self.print("_" * 40, "MAGENTA")
+        table_data = [[key, value] for key, value in data.items()]
+        self.print(f"\n{tabulate(table_data, headers=['id','Keys', 'Value'], tablefmt='gird', numalign='center',stralign='center', showindex=True)}", "cyan")
+    
+    def data_dict(self, data:dict):
+      print(data)
+      return data
