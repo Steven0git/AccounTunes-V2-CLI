@@ -33,7 +33,7 @@ class Connect:
             self.art.print_color("? Well, Enjoy the ride!", "cyan")
             time.sleep(1.5)
             self.art.print_header("Welcome to the Accounting App V2!")
-            self.art.spin_load("Connecting to the database... Drumroll, please... ", 2)
+            self.art.spin_load("Connecting to the database...", 2)
             self.conn = sql.connect(self.db)
             print()
             self.art.print_color(
@@ -43,7 +43,7 @@ class Connect:
             print()
             time.sleep(1)
             self.art.spin_load(
-                "Gathering your data... insert dramatic suspense music...", 3
+                "Gathering your data...", 3
             )
             time.sleep(0.5)
             self.art.print_color(
