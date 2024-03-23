@@ -40,6 +40,6 @@ class InsertData:
         my_prompt_list = self.store.get_insert_schema()
         self.engine.request_prompt(my_prompt_list)
         self.art.spin_load("Saving your prompt...", 2)
-        self.save()
+        self.engine.save()
         self.art.print_color("\nHere your data: ", "green")
-        self.show("debug")
+        self.engine.show("debug")
