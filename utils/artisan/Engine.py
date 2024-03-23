@@ -140,7 +140,8 @@ class Engine(Show):
                 self.error_message(
                     f"Error: Invalid filename format. It should be alphanumeric with a {filetype} extension."
                 )
-
+    def get_temp_store(self) -> list:
+      return self._temp_store
 
     @staticmethod
     def is_valid_filename(filename: str, filetype: str) -> bool:
