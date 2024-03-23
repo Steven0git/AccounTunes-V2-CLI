@@ -79,5 +79,8 @@ class Connect:
         }]
       self.engine.request_prompt(menu_offered)
       self.engine.save()
-      self.engine.show("debug")
-      self.engine.show("dict")
+      menu_selected = self.engine.show("dict")
+      for key,val in enumerate(menu_selected.items()):
+        if len(val) == 2:
+          if val[0] == "_sql_method":
+            self.sql_lib.sql_helper(val[1])

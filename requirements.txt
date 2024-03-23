@@ -1,3 +1,4 @@
 black
 sqlite3
 progressbar
+tabulate
