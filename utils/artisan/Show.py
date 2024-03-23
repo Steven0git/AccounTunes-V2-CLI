@@ -26,5 +26,4 @@ class Show:
         self.print(f"\n{tabulate(table_data, headers=['id','Keys', 'Value'], tablefmt='gird', numalign='center',stralign='center', showindex=True)}", "cyan")
     
     def data_dict(self, data:dict):
-      print(data)
       return data
