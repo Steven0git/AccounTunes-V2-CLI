@@ -35,6 +35,6 @@ class SQLHandler:
     def __insert_data(self):
         insert = InsertData(self.conn)
         data = insert.exec_insert()
-        print(data)
+          #print(data)
 
  

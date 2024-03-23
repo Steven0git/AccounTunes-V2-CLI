@@ -12,19 +12,19 @@ class SqlSchema:
         else:
             raise ValueError("Invalid method. Method must be one of: insert, select, update, delete")
 
-    def run(self, requirement=False, **additional_args):
+    def run(self, requirement=False, *additional_args):
         """
         This is the third method after set_method required.
         Args:
             requirement(bool): Whether additional arguments are required.
             additional_args: Additional user input.
         """
-        title = f"__sql_schema_{self.__type}"
+        title = f"sql_schema_{self.__type}"   
         if self.__type:
             if not requirement:
-                return getattr(self, title)()
+                return self.sql_schema_insert()   
             elif requirement and additional_args:
-                return getattr(self, title)(additional_args)
+                return getattr(self, title)(True, *additional_args)
             else:
                 raise ValueError("Additional arguments are required but not provided.")
         else:
@@ -36,21 +36,25 @@ class SqlSchema:
         else:
             raise ValueError("The data is empty!")
   
-    def __sql_schema_insert(self):
+    def sql_schema_insert(self, arg = False, *args):   
         schema_insert = InsertSchema()
-        schema_insert.run()
-        data = schema_insert.get_data()
+        if arg is True and args:
+          schema_insert.run(*args)
+        else: 
+          schema_insert.run()
+        data = schema_insert.get_data
+        print(f"Your data: {data}")
         if data and isinstance(data, list):
             sorted_data = sorted(data, key=lambda x: x["order"])
             self.__output = sorted_data
         else:
             raise ValueError("There is an error in inserting data")
 
-    def __sql_schema_select(self):
+    def sql_schema_select(self):   
         pass
 
-    def __sql_schema_update(self):
+    def sql_schema_update(self):  
         pass
 
-    def __sql_schema_delete(self):
+    def sql_schema_delete(self):   
         pass

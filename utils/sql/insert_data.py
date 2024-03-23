@@ -1,5 +1,6 @@
 from .temp_store import Store
 from utils.artisan.Design import Art 
+from utils.artisan.Engine import Engine 
 from time import sleep
 import datetime
 
@@ -7,10 +8,9 @@ class InsertData:
   def __init__(self, connection):
     self.conn = connection
     self.store = Store()
-    self.__open_variable = {
-      
-    }
+    self.__table_column = {}
     self.art = Art()
+    self.engine = Engine()
    
   def get_next_id(self) -> int:
         table_name = f"info_{datetime.datetime.now().strftime('%B')}"
@@ -30,18 +30,14 @@ class InsertData:
       if val[0].startswith("_trans_insert"):
         # only works if _ one data
         get_true_variable = val[0].split("_trans_insert_")[-1]
-        self.__open_variable[get_true_variable] = val[1]
+        self.__table_column[get_true_variable] = val[1]
         
   def exec_insert(self):
-    self.art.print_color("_"*50,"MAGENTA")
-    self.art.print_color("\nData Retrieved!\n", "CYAN")
-    sleep(1)
-    self.art.spin_load("Loading...", 2)
-   
-    data_insert = self.store.get_insert_schema()
-    print(data_insert)
-    self.art.print_color("_"*50,"MAGENTA")
-    self.art.print_color("Info: ","green")
-    self.art.print_color("- Execution Begin....","red")
-    
-    #check type insert
+    self.art.print_header("INSERT - TRANSACTION", "sub")
+    self.art.print_color(" \nInfo: ask user input","green")
+    my_prompt_list = self.store.get_insert_schema()
+    self.engine.request_prompt(my_prompt_list)
+    self.art.spin_load("Saving your prompt...",2)
+    self.save()
+    self.art.print_color("\nHere your data: ", "green")
+    self.show("debug")
