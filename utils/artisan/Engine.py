@@ -20,7 +20,7 @@ class Engine(Show):
         self._temp_store = []
         self._data_store = {}
         self.count = 0
-     
+
     def request_prompt(self, my_list: list) -> bool:
         """
         Processes user prompt requests.
@@ -32,16 +32,18 @@ class Engine(Show):
             bool: True if prompt was successfully processed, False otherwise.
         """
         for data in my_list:
-          #Error Handle
+            # Error Handle
             if not isinstance(data, dict):
-                self.error_message("Each item in my_list must be a dictionary and array [{}]!", False)
+                self.error_message(
+                    "Each item in my_list must be a dictionary and array [{}]!", False
+                )
                 return False
 
             if not all(key in data for key in ["type", "keys"]):
                 self.error_message("Title, Type, and keys are required fields!", False)
                 return False
 
-            #menu handle
+            # menu handle
             name_type = data.get("type", "").lower()
             if name_type == "menu":
                 if "list" not in data:
@@ -49,9 +51,9 @@ class Engine(Show):
                     return False
                 menu = self.select_menu(data)
                 self._save((data["keys"], data["list"][menu]))
-            
-            #input handle    
-            elif name_type in ["input","data","prompt"]:
+
+            # input handle
+            elif name_type in ["input", "data", "prompt"]:
                 if "title" not in data:
                     self.error_message("Title is required for data type prompt!", False)
                     return False
@@ -61,6 +63,7 @@ class Engine(Show):
                 self.error_message("Invalid prompt type!", False)
                 return False
         return True
+
     def prompt(self, message: str) -> str:
         """
         Prompts the user for input.
@@ -140,8 +143,9 @@ class Engine(Show):
                 self.error_message(
                     f"Error: Invalid filename format. It should be alphanumeric with a {filetype} extension."
                 )
+
     def get_temp_store(self) -> list:
-      return self._temp_store
+        return self._temp_store
 
     @staticmethod
     def is_valid_filename(filename: str, filetype: str) -> bool:
@@ -217,9 +221,9 @@ class Engine(Show):
     def show(self, type_read: str):
         my_read = type_read.lower()
         if my_read == "debug":
-           super().readable(self._data_store)
+            super().readable(self._data_store)
         elif my_read == "dict":
-          return super().data_dict(self._data_store)
+            return super().data_dict(self._data_store)
 
     def error_message(self, msg: str, clean_screen: bool = True):
         """

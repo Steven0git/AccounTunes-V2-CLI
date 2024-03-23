@@ -36,8 +36,8 @@ class Connect:
             time.sleep(1.5)
             self.art.print_header("Welcome to the Accounting App V2!")
             self.art.spin_load("Connecting to the database...", 2)
-            
-            #updating connection sql
+
+            # updating connection sql
             self.conn = sql.connect(self.db)
             self.sql_lib.my_connect(self.db)
             print()
@@ -47,9 +47,7 @@ class Connect:
             )
             print()
             time.sleep(1)
-            self.art.spin_load(
-                "Gathering your data...", 3
-            )
+            self.art.spin_load("Gathering your data...", 3)
             time.sleep(0.5)
             self.art.print_color(
                 "Voila! Data collection complete! We've scooped up those numbers faster than a kid in a candy store!\n",
@@ -66,21 +64,23 @@ class Connect:
 
     def _prompt_database_path(self):
         return self.engine.fprompt("Enter Database Name: ", "db")
-    
+
     def open_panel(self):
-      """
-     Panel Selection 
-      """
-      menu_offered = [{
-          "title": "What You Wanted Todo",
-          "list": ["SELECT DATA","INSERT DATA", "UPDATE DATA", "DELETE DATA"],
-          "type": "menu",
-          "keys": "_sql_method"
-        }]
-      self.engine.request_prompt(menu_offered)
-      self.engine.save()
-      menu_selected = self.engine.show("dict")
-      for key,val in enumerate(menu_selected.items()):
-        if len(val) == 2:
-          if val[0] == "_sql_method":
-            self.sql_lib.sql_helper(val[1])
+        """
+        Panel Selection
+        """
+        menu_offered = [
+            {
+                "title": "What You Wanted Todo",
+                "list": ["SELECT DATA", "INSERT DATA", "UPDATE DATA", "DELETE DATA"],
+                "type": "menu",
+                "keys": "_sql_method",
+            }
+        ]
+        self.engine.request_prompt(menu_offered)
+        self.engine.save()
+        menu_selected = self.engine.show("dict")
+        for key, val in enumerate(menu_selected.items()):
+            if len(val) == 2:
+                if val[0] == "_sql_method":
+                    self.sql_lib.sql_helper(val[1])

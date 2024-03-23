@@ -23,7 +23,10 @@ class Show:
             data (dict): The dictionary containing keys and values to be displayed.
         """
         table_data = [[key, value] for key, value in data.items()]
-        self.print(f"\n{tabulate(table_data, headers=['id','Keys', 'Value'], tablefmt='gird', numalign='center',stralign='center', showindex=True)}", "cyan")
-    
-    def data_dict(self, data:dict):
-      return data
+        self.print(
+            f"\n{tabulate(table_data, headers=['id','Keys', 'Value'], tablefmt='gird', numalign='center',stralign='center', showindex=True)}",
+            "cyan",
+        )
+
+    def data_dict(self, data: dict):
+        return data
