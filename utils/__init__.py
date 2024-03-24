@@ -74,7 +74,8 @@ class Connect:
                 "title": "What You Wanted Todo",
                 "list": ["SELECT DATA", "INSERT DATA", "UPDATE DATA", "DELETE DATA"],
                 "type": "menu",
-                "keys": "_sql_method",
+                "clean": True,
+                "keys": "_sql_method"
             }
         ]
         self.engine.request_prompt(menu_offered)

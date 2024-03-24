@@ -104,7 +104,7 @@ class Art:
 
         bar.finish()
 
-    def menu_list(self, data: dict, clean: bool = False):
+    def menu_list(self, data: dict, clean: bool = True):
         """
         Prints a menu list with optional screen cleaning.
 
@@ -115,7 +115,7 @@ class Art:
 
         sleep(0.5)
         # check args clean
-        if clean:
+        if clean is True:
             self.spin_load("Your screen is dirty, some cleaning....", 2)
             os.system("cls" if os.name == "nt" else "clear")
 
@@ -128,3 +128,7 @@ class Art:
             self.print_color(f"\t{index}: ", "GREEN", " ")
             self.print_color(item, "YELLOW")
             sleep(0.3)
+    
+    def clean_screen(self):
+      self.spin_load("asked to clean....", 2)
+      return os.system("cls" if os.name == "nt" else "clear")

@@ -35,8 +35,7 @@ class InsertData:
                 self.__table_column[get_true_variable] = val[1]
 
     def exec_insert(self):
-        self.art.print_header("INSERT - TRANSACTION", "sub")
-        self.art.print_color(" \nInfo: ask user input", "green")
+        self.art.clean_screen()
         my_prompt_list = self.store.get_insert_schema()
         self.engine.request_prompt(my_prompt_list)
         self.art.spin_load("Saving your prompt...", 2)

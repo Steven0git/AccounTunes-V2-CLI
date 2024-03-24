@@ -88,6 +88,7 @@ class InsertSchema:
                 }
                 if add_result["type"] == "menu":
                     add_result["list"] = data[4]
+                    add_result["clean"] = False
                 self.__data.append(add_result)
             else:
                 raise ValueError("Error: insert_schema.py: Data invalid")

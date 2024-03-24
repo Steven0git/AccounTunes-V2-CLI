@@ -96,9 +96,8 @@ class Engine(Show):
         Returns:
             int: Selected menu option.
         """
-        if self.count == 0:
-            self.art.menu_list(menu, True)
-            self.count += 1
+        if type(menu.get("clean")) is bool and menu.get('clean') is True:
+           self.art.menu_list(menu, True)
         else:
             self.art.menu_list(menu, False)
 
