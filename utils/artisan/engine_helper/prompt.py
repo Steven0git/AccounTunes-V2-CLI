@@ -1,8 +1,8 @@
-
 class Prompter:
-  def __init__(self):
-    pass
-  def request_prompt(self, my_list: list) -> bool:
+    def __init__(self):
+        pass
+
+    def request_prompt(self, my_list: list) -> bool:
         """
         Processes user prompt requests.
 
@@ -41,7 +41,8 @@ class Prompter:
                 self.error_message("Invalid prompt type!", False)
                 return False
         return True
-  def prompt(self, message: str) -> str:
+
+    def prompt(self, message: str) -> str:
         """
         Prompts the user for input.
 
@@ -62,7 +63,8 @@ class Prompter:
             else:
                 if data := self.data_confirmation(data_input):
                     return data
-  def select_menu(self, menu: dict) -> int:
+
+    def select_menu(self, menu: dict) -> int:
         """
         Displays a menu and prompts the user to select an option.
 
@@ -72,7 +74,7 @@ class Prompter:
         Returns:
             int: Selected menu option index.
         """
-        if type(menu.get("clean")) is bool and menu.get('clean') is True:
+        if type(menu.get("clean")) is bool and menu.get("clean") is True:
             self.art.menu_list(menu, True)
         else:
             self.art.menu_list(menu, False)
@@ -96,7 +98,8 @@ class Prompter:
                 self.error_message(
                     "Invalid input! Please enter a valid integer.", False
                 )
-  def fprompt(self, prompt_msg: str, filetype: str) -> str:
+
+    def fprompt(self, prompt_msg: str, filetype: str) -> str:
         """
         Prompts the user for a filename with the specified filetype format.
 
@@ -117,4 +120,3 @@ class Prompter:
                 self.error_message(
                     f"Error: Invalid filename format. It should be alphanumeric with a {filetype} extension."
                 )
-  

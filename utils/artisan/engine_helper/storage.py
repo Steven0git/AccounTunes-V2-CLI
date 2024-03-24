@@ -1,8 +1,10 @@
-from itertools import groupby 
+from itertools import groupby
+
 
 class Storage:
     def __init__(self):
-      pass
+        pass
+
     def save(self) -> bool:
         """
         Saves all prompt data for execution.

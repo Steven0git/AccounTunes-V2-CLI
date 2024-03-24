@@ -17,7 +17,7 @@ class Art:
         MAGENTA (str): ANSI escape code for magenta color.
         CYAN (str): ANSI escape code for cyan color.
         RESET (str): ANSI escape code to reset text color to default.
-   """
+    """
 
     def __init__(self):
         self.GREEN = "\033[92m"
@@ -115,7 +115,7 @@ class Art:
             self.print_color(f"\t{index}: ", "GREEN", " ")
             self.print_color(item, "YELLOW")
             sleep(0.3)
-    
+
     def clean_screen(self):
-      self.spin_load("asked to clean....", 2)
-      return os.system("cls" if os.name == "nt" else "clear")
+        self.spin_load("asked to clean....", 2)
+        return os.system("cls" if os.name == "nt" else "clear")

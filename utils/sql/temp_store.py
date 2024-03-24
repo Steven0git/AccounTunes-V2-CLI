@@ -31,7 +31,7 @@ class Store:
             }
         ]
         engine_sql.request_prompt(type_trans)
-        data = engine_sql.get_temp_store()  
+        data = engine_sql.get_temp_store()
         if data[0][0] == "_root_trans_insert_type":
             splitter = data[0][1].lower().strip().split("->")
             scheme.run(True, splitter[0].strip())

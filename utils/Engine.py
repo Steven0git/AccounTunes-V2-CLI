@@ -60,6 +60,7 @@ class Engine(Show):
                 self.error_message("Invalid prompt type!", False)
                 return False
         return True
+
     def prompt(self, message: str) -> str:
         """
         Prompts the user for input.
@@ -81,6 +82,7 @@ class Engine(Show):
             else:
                 if data := self.data_confirmation(data_input):
                     return data
+
     def select_menu(self, menu: dict) -> int:
         """
         Displays a menu and prompts the user to select an option.
@@ -91,7 +93,7 @@ class Engine(Show):
         Returns:
             int: Selected menu option index.
         """
-        if type(menu.get("clean")) is bool and menu.get('clean') is True:
+        if type(menu.get("clean")) is bool and menu.get("clean") is True:
             self.art.menu_list(menu, True)
         else:
             self.art.menu_list(menu, False)
@@ -115,6 +117,7 @@ class Engine(Show):
                 self.error_message(
                     "Invalid input! Please enter a valid integer.", False
                 )
+
     def fprompt(self, prompt_msg: str, filetype: str) -> str:
         """
         Prompts the user for a filename with the specified filetype format.
@@ -136,7 +139,7 @@ class Engine(Show):
                 self.error_message(
                     f"Error: Invalid filename format. It should be alphanumeric with a {filetype} extension."
                 )
-  
+
     def is_valid_filename(self, filename: str, filetype: str) -> bool:
         """
         Checks if the filename has the specified filetype format.
@@ -152,7 +155,6 @@ class Engine(Show):
             return filename.endswith(filetype)
         else:
             return filename.endswith(f".{filetype}")
-
 
     def show(self, type_read: str):
         my_read = type_read.lower()
@@ -233,6 +235,7 @@ class Engine(Show):
         if clean_screen:
             sleep(0.8)
             os.system("cls" if os.name == "nt" else "clear")
+
     def suppress_error(self):
         """
         Suppresses error messages.
@@ -243,4 +246,3 @@ class Engine(Show):
                 sys.stderr = f
         except OSError:
             pass
- 

@@ -21,7 +21,6 @@ class Engine(EngineHelper):
         self._data_store = {}
         self.count = 0
 
-
     def show(self, type_read: str):
         my_read = type_read.lower()
         if my_read == "debug":
@@ -44,6 +43,7 @@ class Engine(EngineHelper):
         if clean_screen:
             sleep(0.8)
             os.system("cls" if os.name == "nt" else "clear")
+
     def suppress_error(self):
         """
         Suppresses error messages.
@@ -54,4 +54,3 @@ class Engine(EngineHelper):
                 sys.stderr = f
         except OSError:
             pass
- 
