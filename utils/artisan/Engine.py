@@ -32,7 +32,6 @@ class Engine(Show):
             bool: True if prompt was successfully processed, False otherwise.
         """
         for data in my_list:
-            # Error Handle
             if not isinstance(data, dict):
                 self.error_message(
                     "Each item in my_list must be a dictionary and array [{}]!", False
@@ -43,7 +42,6 @@ class Engine(Show):
                 self.error_message("Title, Type, and keys are required fields!", False)
                 return False
 
-            # menu handle
             name_type = data.get("type", "").lower()
             if name_type == "menu":
                 if "list" not in data:
@@ -52,7 +50,6 @@ class Engine(Show):
                 menu = self.select_menu(data)
                 self._save((data["keys"], data["list"][menu]))
 
-            # input handle
             elif name_type in ["input", "data", "prompt"]:
                 if "title" not in data:
                     self.error_message("Title is required for data type prompt!", False)
@@ -69,7 +66,7 @@ class Engine(Show):
         Prompts the user for input.
 
         Args:
-            args (str): The prompt message.
+            message (str): The prompt message.
 
         Returns:
             str: User input.
@@ -91,13 +88,13 @@ class Engine(Show):
         Displays a menu and prompts the user to select an option.
 
         Args:
-            menu_available (list): List of menu options.
+            menu (dict): Dictionary containing menu options.
 
         Returns:
-            int: Selected menu option.
+            int: Selected menu option index.
         """
         if type(menu.get("clean")) is bool and menu.get('clean') is True:
-           self.art.menu_list(menu, True)
+            self.art.menu_list(menu, True)
         else:
             self.art.menu_list(menu, False)
 
@@ -121,6 +118,22 @@ class Engine(Show):
                     "Invalid input! Please enter a valid integer.", False
                 )
 
+    def is_valid_filename(self, filename: str, filetype: str) -> bool:
+        """
+        Checks if the filename has the specified filetype format.
+
+        Args:
+            filename (str): The filename to check.
+            filetype (str): The filetype format.
+
+        Returns:
+            bool: True if the filename has the correct format, False otherwise.
+        """
+        if filetype.startswith("."):
+            return filename.endswith(filetype)
+        else:
+            return filename.endswith(f".{filetype}")
+
     def fprompt(self, prompt_msg: str, filetype: str) -> str:
         """
         Prompts the user for a filename with the specified filetype format.
@@ -143,25 +156,15 @@ class Engine(Show):
                     f"Error: Invalid filename format. It should be alphanumeric with a {filetype} extension."
                 )
 
+    def show(self, type_read: str):
+        my_read = type_read.lower()
+        if my_read == "debug":
+            super().readable(self._data_store)
+        elif my_read == "dict":
+            return super().data_dict(self._data_store)
+
     def get_temp_store(self) -> list:
         return self._temp_store
-
-    @staticmethod
-    def is_valid_filename(filename: str, filetype: str) -> bool:
-        """
-        Checks if the filename has the specified filetype format.
-
-        Args:
-            filename (str): The filename to check.
-            filetype (str): The filetype format.
-
-        Returns:
-            bool: True if the filename has the correct format, False otherwise.
-        """
-        if filetype.startswith("."):
-            return filename.endswith(filetype)
-        else:
-            return filename.endswith(f".{filetype}")
 
     def data_confirmation(self, data):
         """
@@ -217,13 +220,6 @@ class Engine(Show):
             self.error_message("Error: Invalid data format.", False)
             return False
 
-    def show(self, type_read: str):
-        my_read = type_read.lower()
-        if my_read == "debug":
-            super().readable(self._data_store)
-        elif my_read == "dict":
-            return super().data_dict(self._data_store)
-
     def error_message(self, msg: str, clean_screen: bool = True):
         """
         Displays an error message.
@@ -239,8 +235,6 @@ class Engine(Show):
         if clean_screen:
             sleep(0.8)
             os.system("cls" if os.name == "nt" else "clear")
-
-    @property
     def suppress_error(self):
         """
         Suppresses error messages.
@@ -251,3 +245,4 @@ class Engine(Show):
                 sys.stderr = f
         except OSError:
             pass
+ 

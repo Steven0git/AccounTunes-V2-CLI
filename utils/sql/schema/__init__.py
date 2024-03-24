@@ -46,7 +46,6 @@ class SqlSchema:
         else:
             schema_insert.run()
         data = schema_insert.get_data
-        print(f"Your data: {data}")
         if data and isinstance(data, list):
             sorted_data = sorted(data, key=lambda x: x["order"])
             self.__output = sorted_data

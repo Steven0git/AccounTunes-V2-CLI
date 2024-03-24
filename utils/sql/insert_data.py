@@ -42,3 +42,4 @@ class InsertData:
         self.engine.save()
         self.art.print_color("\nHere your data: ", "green")
         self.engine.show("debug")
+        print(self.engine.show("dict"))
