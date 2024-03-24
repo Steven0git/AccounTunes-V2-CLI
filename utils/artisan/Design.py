@@ -17,20 +17,7 @@ class Art:
         MAGENTA (str): ANSI escape code for magenta color.
         CYAN (str): ANSI escape code for cyan color.
         RESET (str): ANSI escape code to reset text color to default.
-
-    Methods:
-        print_header(title: str)
-            Prints a styled header with the provided title.
-
-        print_color(name: str, color: str, end: str = "")
-            Prints the given name in the specified color.
-
-        spin_loadname: str, duration: int)
-            Displays a loading animation for the specified duration.
-
-        menu_list(data, clean: bool = False)
-            Prints a menu list with optional screen cleaning.
-    """
+   """
 
     def __init__(self):
         self.GREEN = "\033[92m"

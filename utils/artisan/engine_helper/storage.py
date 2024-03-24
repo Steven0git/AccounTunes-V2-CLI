@@ -2,11 +2,7 @@ from itertools import groupby
 
 class Storage:
     def __init__(self):
-      print(self._temp_store, "bce")
-      self.art.print("dumb")
-      self.art.set('hii')
-      print(self.art.names)
-      self._temp_store.append("hhshs")
+      pass
     def save(self) -> bool:
         """
         Saves all prompt data for execution.
@@ -31,4 +27,3 @@ class Storage:
         else:
             self.error_message("Error: Invalid data format.", False)
             return False
-

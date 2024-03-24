@@ -1,8 +1,27 @@
+from .Design import Art
+from .Show import Show
+from itertools import groupby
+from time import sleep
+import sys
+import os
 
-class Prompter:
-  def __init__(self):
-    pass
-  def request_prompt(self, my_list: list) -> bool:
+
+class Engine(Show):
+    """
+    A class responsible for user interaction and file-related operations.
+    """
+
+    def __init__(self):
+        """
+        Initializes the Engine class.
+        """
+        super().__init__()
+        self.art = Art()
+        self._temp_store = []
+        self._data_store = {}
+        self.count = 0
+
+    def request_prompt(self, my_list: list) -> bool:
         """
         Processes user prompt requests.
 
@@ -41,7 +60,7 @@ class Prompter:
                 self.error_message("Invalid prompt type!", False)
                 return False
         return True
-  def prompt(self, message: str) -> str:
+    def prompt(self, message: str) -> str:
         """
         Prompts the user for input.
 
@@ -62,7 +81,7 @@ class Prompter:
             else:
                 if data := self.data_confirmation(data_input):
                     return data
-  def select_menu(self, menu: dict) -> int:
+    def select_menu(self, menu: dict) -> int:
         """
         Displays a menu and prompts the user to select an option.
 
@@ -96,7 +115,7 @@ class Prompter:
                 self.error_message(
                     "Invalid input! Please enter a valid integer.", False
                 )
-  def fprompt(self, prompt_msg: str, filetype: str) -> str:
+    def fprompt(self, prompt_msg: str, filetype: str) -> str:
         """
         Prompts the user for a filename with the specified filetype format.
 
@@ -118,3 +137,110 @@ class Prompter:
                     f"Error: Invalid filename format. It should be alphanumeric with a {filetype} extension."
                 )
   
+    def is_valid_filename(self, filename: str, filetype: str) -> bool:
+        """
+        Checks if the filename has the specified filetype format.
+
+        Args:
+            filename (str): The filename to check.
+            filetype (str): The filetype format.
+
+        Returns:
+            bool: True if the filename has the correct format, False otherwise.
+        """
+        if filetype.startswith("."):
+            return filename.endswith(filetype)
+        else:
+            return filename.endswith(f".{filetype}")
+
+
+    def show(self, type_read: str):
+        my_read = type_read.lower()
+        if my_read == "debug":
+            super().readable(self._data_store)
+        elif my_read == "dict":
+            return super().data_dict(self._data_store)
+
+    def get_temp_store(self) -> list:
+        return self._temp_store
+
+    def data_confirmation(self, data):
+        """
+        Confirms user's input.
+
+        Args:
+            data: Data to confirm.
+
+        Returns:
+            data if confirmed, False otherwise.
+        """
+        sleep(0.4)
+        self.art.print_color("\nAre you sure (yes/no/quit):", "yellow", " ")
+        confirmation = input().lower()
+        sleep(0.4)
+        if confirmation in ["yes", "y"]:
+            self.art.print_color("\tConfirmed!", "green")
+            return data
+        elif confirmation in ["q", "quit"]:
+            self.art.print_color("\tTransaction cancelled.", "red")
+            sys.exit(0)
+        elif confirmation in ["no", "n"]:
+            self.art.print_color("\tSelection canceled.", "red")
+            return False
+        else:
+            self.error_message(
+                "Invalid input. Please enter 'yes', 'no', or 'quit'.", False
+            )
+            return self.data_confirmation(data)
+
+    def save(self) -> bool:
+        """
+        Saves all prompt data for execution.
+        """
+        if self._temp_store:
+            for key, group in groupby(self._temp_store, key=lambda x: x[0]):
+                self._data_store[key] = next(group)[1]
+            return True
+        else:
+            return False
+
+    def _save(self, data: tuple) -> bool:
+        """
+        Saves temporary data.
+
+        Args:
+            data(tuple): It only accepts tuples of length 2.
+        """
+        if len(data) == 2:
+            self._temp_store.append(data)
+            return True
+        else:
+            self.error_message("Error: Invalid data format.", False)
+            return False
+
+    def error_message(self, msg: str, clean_screen: bool = True):
+        """
+        Displays an error message.
+
+        Args:
+            msg (str): The error message to display.
+            clean_screen (bool): Whether to clear the screen after displaying the message.
+        """
+        if len(msg.strip()):
+            self.art.print_color(f"{msg}\n", "red")
+        else:
+            self.art.print_color("Error: Message not provided.\n", "red")
+        if clean_screen:
+            sleep(0.8)
+            os.system("cls" if os.name == "nt" else "clear")
+    def suppress_error(self):
+        """
+        Suppresses error messages.
+        """
+        try:
+            null_device = "NUL" if os.name == "nt" else os.devnull
+            with open(null_device, "w") as f:
+                sys.stderr = f
+        except OSError:
+            pass
+ 

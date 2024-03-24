@@ -1,4 +1,3 @@
-#from utils.artisan.Design import Art
 from tabulate import tabulate
 from time import sleep
 
@@ -12,8 +11,6 @@ class Show:
         """
         Initialize the Show Class
         """
-        #self.art = Art()
-        #self.print = self.art.print_color
 
     def readable(self, data: dict):
         """
@@ -21,13 +18,13 @@ class Show:
 
         Args:
             data (dict): The dictionary containing keys and values to be displayed.
-       
+       """
         table_data = [[key, value] for key, value in data.items()]
-        self.print(
+        self.art.print_color(
             f"\n{tabulate(table_data, headers=['id','Keys', 'Value'], tablefmt='gird', numalign='center',stralign='center', showindex=True)}",
             "cyan",
         )
-        """
+        
 
     def data_dict(self, data: dict):
         return data

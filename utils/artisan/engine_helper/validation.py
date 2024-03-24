@@ -1,7 +1,8 @@
 from time import sleep 
 import sys
 class Validation:
-      def is_valid_filename(self, filename: str, filetype: str) -> bool:
+    
+    def is_valid_filename(self, filename: str, filetype: str) -> bool:
         """
         Checks if the filename has the specified filetype format.
 
@@ -16,8 +17,7 @@ class Validation:
             return filename.endswith(filetype)
         else:
             return filename.endswith(f".{filetype}")
-      
-      def data_confirmation(self, data):
+    def data_confirmation(self, data):
         """
         Confirms user's input.
 
